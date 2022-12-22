@@ -38,13 +38,13 @@ class Endpoint
         }
 
         $response = Reolink::security()->login(
-            username: config('services.reolink.username') . 'sf',
+            username: config('services.reolink.username'),
             password: config('services.reolink.password')
         );
 
         $token = $response['Token'];
 
-        cache()->put($cacheKey, $token['name'], now()->addSeconds($token['leaseTime']));
+        cache()->put($cacheKey, $token['name'], now()->addSeconds($token['leaseTime'] - 5));
 
         return $token['name'];
     }
